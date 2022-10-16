@@ -58,5 +58,16 @@ Pone(5,4,3,10000)
 }
 
 system.time(Pall(5,1,10000))
-
-
+# question 2 method 2
+Pall<- function(n,strategy,nreps){
+  SamMatrix<-matrix(nrow=nreps,ncol=2*n)
+  for (i in 1:nreps) {
+    SamMatrix[i,]<-sample(1:(2*n),2*n)
+  }
+  simulation <- matrix(nrow=nreps,ncol=2*n)
+  for(k in 1:(2*n)){
+    simulation[,k] <-apply(SamMatrix,1,func,n=n,strategy=strategy,k=k)
+  }
+  result = apply(simulation,1,prod)
+  return(sum(result)/nreps)
+}
