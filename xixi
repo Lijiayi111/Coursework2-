@@ -2,33 +2,33 @@
 Pone<-function(n,k,strategy,nreps) {
   SamMatrix<-matrix(nrow=nreps,ncol=2*n)
   for (i in 1:nreps) {
-    SamMatrix[i,]<-sample(1:10,10)
+    SamMatrix[i,]<-sample(1:(2*n),2*n)
   }
- 
-  result<-apply(SamMatrix, 1, func,strategy=strategy,k=k)
+  
+  result<-apply(SamMatrix, 1, func,n=n,strategy=strategy,k=k)
   prob<-sum(result)/nreps
   return(prob)
   
 }
 
 
-func<-function(x,strategy,k){
-if(strategy==3){
-    card<-sample(x,5)
+func<-function(x,n,strategy,k){
+  if(strategy==3){
+    card<-sample(x,n)
   }else{
     if (strategy==1){
       b<-k
     }else{
-      b<-sample(1:10,1)
+      b<-sample(1:(2*n),1)
     }
-    card<-rep(0,5)
-    for (i in 1:5) {
+    card<-rep(0,n)
+    for (i in 1:n) {
       card[i]<-x[b]
       b<-x[b]
     }
   }
   
-if (k %in% card){
+  if (k %in% card){
     return (1)
   }else{
     return (0)
@@ -36,7 +36,13 @@ if (k %in% card){
 }
 
 
-Pone(10,4,1,10000)
-Pone(10,4,2,10000)
-Pone(10,4,3,10000)
+Pone(5,4,1,10000)
+Pone(5,4,2,10000)
+Pone(5,4,3,10000)
+
+
+
+Pall<-
+  
+
 
