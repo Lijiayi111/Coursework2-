@@ -75,6 +75,22 @@ Pall<- function(n,strategy,nreps){
 
 
 ## question 5
+dloop<- function(n,nreps){
+  SamMatrix<-matrix(nrow=nreps,ncol=2*n)
+  for (i in 1:nreps) {
+    SamMatrix[i,]<-sample(1:(2*n),2*n)
+  }
+  result<-apply(SamMatrix, 1, function66,n=n)
+  #print(result)
+  
+  result66 <- table(result)/nreps
+  
+  return(result66)
+}
+
+
+
+
 function66 <- function(x,n){
 k <- 4
 b <- k
@@ -91,12 +107,10 @@ return(length)
 
 dloop(50,10000)
 
-# question 6.a
+
 n <- 50
 pnohigherthan <- sum(dloop(n,10000)[1:n])
 
-
-# question 6.b
 n <- c(50:100)
 pnohigherthann <- rep(0,length(n))
 for (i in 1:length(n)){
