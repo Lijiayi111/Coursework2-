@@ -90,14 +90,44 @@ Pall(50,3,10000)
 
 
 
+function66 <- function(x,n){
+  t <- rep(0,2*n)
+  length<- rep(0,2*n)
+  for (k in 1:(2*n)){ 
+    b <- k
+    t[k]<- k
+    print("tvalue is ")
+    print(t)
+    card<-rep(0,2*n)
+    
+    # construct the card list we will take  
+    for (i in 1:(2*n)){
+       card[i]<-x[b]
+       b<-x[b]}
+    print(card)
+    # the index of card when k first equals to card 
+    length[k] <- match(k,card)
+    print(length[k])
+  }
+  
+  print(length)
+  
+  return(length)
+}
+
+
 dloop<- function(n,nreps){
   SamMatrix<-matrix(nrow=nreps,ncol=2*n)
+  # interate the function66 by nreps time by creating nreps row of random cards
   for (i in 1:nreps) {
     SamMatrix[i,]<-sample(1:(2*n),2*n)
   }
+  # apply the function 66 for every row 
   result<-apply(SamMatrix, 1, function66,n=n)
   #print(result)
   
+  print(result)
+  print(table(result))
   result66 <- table(result)/nreps
   
   return(result66)
@@ -106,21 +136,10 @@ dloop<- function(n,nreps){
 
 
 
-function66 <- function(x,n){
-k <- 4
-b <- k
-card<-rep(0,2*n)
-for (i in 1:(2*n)){
-  card[i]<-x[b]
-  b<-x[b]
-}
-#print(card)
-length <- match(k,card)
-return(length)
-}
 
 
-dloop(50,10000)
+dloop(4,100)
+
 
 
 n <- 50
