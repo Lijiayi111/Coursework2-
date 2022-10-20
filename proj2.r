@@ -46,9 +46,9 @@ func<-function(x,n,k,strategy){
   }
   # judge whether the number k is found and return the result
   if (k %in% card){
-    return (1)
+    return (TRUE)
   }else{
-    return (0)
+    return (FALSE)
   }
 }
 
@@ -70,7 +70,7 @@ Pall<- function(n,strategy,nreps){
 
 
 # Examples for n=5:
-# estimated individual success probabilities
+# estimated individual success probabilities when k=4
 Pone(5,4,1,10000)
 Pone(5,4,2,10000)
 Pone(5,4,3,10000)
@@ -79,7 +79,7 @@ Pall(5,1,10000)
 Pall(5,2,10000)
 Pall(5,3,10000)
 # Examples for n=50:
-# estimated individual success probabilities
+# estimated individual success probabilities when k=4
 Pone(50,4,1,10000)
 Pone(50,4,2,10000)
 Pone(50,4,3,10000)
@@ -87,7 +87,11 @@ Pone(50,4,3,10000)
 Pall(50,1,10000)
 Pall(50,2,10000)
 Pall(50,3,10000)
-
+# We can find that the estimated probabilities of individual success for each strategy
+# are around 0.5, 0.4 and 0.5. And the probabilities for strategy 1 and 3 are similar.
+# However, for strategy 1, the estimated probability of all prisoners succeeding 
+# is around 0.3 while the probabilities for other two strategies are extremely close
+# to 0.
 
 
 function66 <- function(x,n){
