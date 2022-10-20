@@ -54,16 +54,24 @@ func<-function(x,n,k,strategy){
 
 
 
+#To calculate the probability of all prisoners succeed in finding their number.
+#Input:n(half number of boxs);strategy(Type of strategy);nreps(number of repetisions)
+#ouput:The probability of all prisoners finding their number.
 Pall<- function(n,strategy,nreps){
-  SamMatrix<-matrix(nrow=nreps,ncol=2*n)
-  for (i in 1:nreps) {
-    SamMatrix[i,]<-sample(1:(2*n),2*n)
+  #Just like function Pone.create a  matrix called SamMatrix,each row represents the times of replicate simulations,
+  #each column represents the number of card for each row.
+  #But the difference is  that for each replicate simulations(rows) there will be 2n prisoners to finding their card number.
+  result <- rep(1,nreps)
+  for(i in 1:nreps){
+    cardvector <-  sample(1:(2*n),2*n)
+    for(k in 1:(2*n)){
+      if(func(cardvector,n=n,k=k,strategy=strategy) == FALSE){
+        result[i] = 0
+        break
+      }
+    }
   }
-  simulation <- matrix(nrow=nreps,ncol=2*n)
-  for(k in 1:(2*n)){
-    simulation[,k] <-apply(SamMatrix,1,func,n=n,strategy=strategy,k=k)
-  }
-  result = apply(simulation,1,prod)
+  #create a matrix by nreps*2n called simulation,which record
   return(sum(result)/nreps)
 }
 
