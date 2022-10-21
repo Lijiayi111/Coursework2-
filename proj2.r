@@ -1,3 +1,12 @@
+## Jiayi Li, S2304671 : Coding for function dloop
+## Rongkai Fang, s2310813 : Coding for function Pall
+## Yifan Hu, s2287683 ：Coding for function Pone
+## github repo address: https://github.com/Lijiayi111/Coursework2-.git
+## The contribution of our group member is roughly equal. We discussed the ideas 
+## and general process of all questions together. Then each one of us was 
+## responsible for formally coding and commenting and also reviewing other parts of coding. 
+
+
 
 # To calculate the probability of a single prisoner's success
 # Input: n (half number of boxes), k (the prisoner’s number), strategy (1, 2 or 3) 
@@ -5,19 +14,15 @@
 # The function should return the estimated probability, which should be a number
 # between 0 and 1.
 Pone<-function(n,k,strategy,nreps) {
-  
-  # generate the sample matrix, which records the card numbers of each simulation.
-  # The number of columns represents the number of boxes and the number of rows 
-  # represents the number of simulations. 
-  SamMatrix<-matrix(nrow=nreps,ncol=2*n)
+  # initialize result and this vector is to record the results of each simulation
+  result<-rep(0,nreps) 
   for (i in 1:nreps) {
-    SamMatrix[i,]<-sample(1:(2*n),2*n)
+    CardVector<-sample(1:(2*n),2*n)
+    # Using function func to judge whether the prisoner succeed in ith simulation
+    result[i]<-func(CardVector,n=n,k=k,strategy = strategy)
   }
-  
-  # Judge whether the prisoner k is successful in each simulation
-  result<-apply(SamMatrix, 1, func,n=n,k=k,strategy=strategy)
-  prob<-sum(result)/nreps
-  return(prob)
+  #return the probability
+  return(sum(result)/nreps)
 }
 
 
@@ -29,8 +34,9 @@ func<-function(x,n,strategy,k){
   if(strategy == 3){
     if(k %in% sample(x,n)){
       return (TRUE)
-    }#'b' denote the box number. if strategy==1,make b=k.If strategy==2,make b equal a random number between 1:2n.
-     #every time open a box, judge if the card number(x[b]) inside the box equal to k and make the box number = card number(b<-x[b])
+    }
+    #'b' denote the box number. if strategy==1,make b=k.If strategy==2,make b equal a random number between 1:2n.
+    #every time open a box, judge if the card number(x[b]) inside the box equal to k and make the box number = card number(b<-x[b])
   }else if(strategy == 1){
     b <- k
     for (i in 1:n) {
@@ -48,7 +54,7 @@ func<-function(x,n,strategy,k){
       b<- x[b]
     }
   }
-  #if can not find the card with their number on it,return FALSE
+  #if we can not find the card with their number on it,return FALSE
   return (FALSE)
   
 }
@@ -56,7 +62,7 @@ func<-function(x,n,strategy,k){
 
 #To calculate the probability of all prisoners who succeed in finding their number.
 #Input:n(half number of boxes);strategy(Type of strategy);nreps(number of repetisions)
-#ouput:The probability of all prisoners finding their number.
+#output:The probability of all prisoners finding their number.
 Pall<- function(n,strategy,nreps){
   #Create a vector named 'result',which record every time of simulation's result.
   #and initialize all the elements to 1, which denotes that all prisoners have successfully found their number.
@@ -64,7 +70,7 @@ Pall<- function(n,strategy,nreps){
   result <- rep(1,nreps)
   for(i in 1:nreps){
     #Create a vector, which elements denote the cards number,and index denote the boxes number.
-    cardvector <-  sample(1:(2*n),2*n)
+    cardvector <- sample(1:(2*n),2*n)
     #for each simulation, all prisoners will go to find their card.
     for(k in 1:(2*n)){
       #Use the 'func' function to judge if the prisoner succeed in finding their number.
@@ -101,9 +107,10 @@ Pall(50,2,10000)
 Pall(50,3,10000)
 # We can find that the estimated probabilities of individual success for each strategy
 # are around 0.5, 0.4 and 0.5. And the probabilities for strategy 1 and 3 are similar.
-# However, for strategy 1, the estimated probability of all prisoners succeeding 
-# is around 0.3 while the probabilities for other two strategies are extremely close
-# to 0.
+# However, for strategy 1, the estimated probabilities of all prisoners succeeding 
+# are around 0.3 while the probabilities for other two strategies are extremely small 
+# and approach to 0 as the value of n grows.
+
 
 
 function66 <- function(x,n){
