@@ -22,56 +22,60 @@ Pone<-function(n,k,strategy,nreps) {
 
 
 # Judge whether the prisoner k is successful.
-# Input: x is a vector and the other arguments are the same as Pone.
-# If the prisoner succeeds, the function will return 1. If not, return 0.
-func<-function(x,n,k,strategy){
-  
-  # for each strategy, we generate a vector card to record the card numbers which
-  # the prisoner has found in n times.
-  if(strategy==3){
-    card<-sample(x,n)
-  }else{
-    # find first box number
-    if (strategy==1){
-      b<-k  
-    }else{
-      b<-sample(1:(2*n),1)
-    }
-    # find all card numbers in n times
-    card<-rep(0,n)
+# Input: x is a vector recording the number of cards and the other arguments are the same as Pone.
+# If the prisoner succeeds, the function will return TRUE. If not, return FALSE.
+func<-function(x,n,strategy,k){
+  #if strategy==3,randomly open n boxes,and judge if the prisoner number in the boxes.
+  if(strategy == 3){
+    if(k %in% sample(x,n)){
+      return (TRUE)
+    }#'b' denote the box number. if strategy==1,make b=k.If strategy==2,make b equal a random number between 1:2n.
+     #every time open a box, judge if the card number(x[b]) inside the box equal to k and make the box number = card number(b<-x[b])
+  }else if(strategy == 1){
+    b <- k
     for (i in 1:n) {
-      card[i]<-x[b]
+      if(x[b] == k){
+        return (TRUE)
+      }
       b<-x[b]
     }
-  }
-  # judge whether the number k is found and return the result
-  if (k %in% card){
-    return (TRUE)
   }else{
-    return (FALSE)
+    b<- sample(1:(2*n),1)
+    for (i in 1:n) {
+      if(x[b] == k){
+        return (TRUE)
+      }
+      b<- x[b]
+    }
   }
+  #if can not find the card with their number on it,return FALSE
+  return (FALSE)
+  
 }
 
 
-
-#To calculate the probability of all prisoners succeed in finding their number.
-#Input:n(half number of boxs);strategy(Type of strategy);nreps(number of repetisions)
+#To calculate the probability of all prisoners who succeed in finding their number.
+#Input:n(half number of boxes);strategy(Type of strategy);nreps(number of repetisions)
 #ouput:The probability of all prisoners finding their number.
 Pall<- function(n,strategy,nreps){
-  #Just like function Pone.create a  matrix called SamMatrix,each row represents the times of replicate simulations,
-  #each column represents the number of card for each row.
-  #But the difference is  that for each replicate simulations(rows) there will be 2n prisoners to finding their card number.
+  #Create a vector named 'result',which record every time of simulation's result.
+  #and initialize all the elements to 1, which denotes that all prisoners have successfully found their number.
+  #then loops nreps times, if there is one prisoner who can not find his card before opening n boxes, change the 1 to 0.
   result <- rep(1,nreps)
   for(i in 1:nreps){
+    #Create a vector, which elements denote the cards number,and index denote the boxes number.
     cardvector <-  sample(1:(2*n),2*n)
+    #for each simulation, all prisoners will go to find their card.
     for(k in 1:(2*n)){
+      #Use the 'func' function to judge if the prisoner succeed in finding their number.
+      #If fail,change the 1 to 0 in result[i]
       if(func(cardvector,n=n,k=k,strategy=strategy) == FALSE){
         result[i] = 0
         break
       }
     }
   }
-  #create a matrix by nreps*2n called simulation,which record
+  #return the probability of all prisoners succeeding.
   return(sum(result)/nreps)
 }
 
